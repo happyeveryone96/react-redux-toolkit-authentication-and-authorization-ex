@@ -5,15 +5,15 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Home from "./components/Home";
-import Profile from "./components/Profile";
-import BoardUser from "./components/BoardUser";
-import BoardModerator from "./components/BoardModerator";
-import BoardAdmin from "./components/BoardAdmin";
+import Login from "./app/components/Login";
+import Register from "./app/components/Register";
+import Home from "./app/components/Home";
+import Profile from "./app/components/Profile";
+import BoardUser from "./app/components/BoardUser";
+import BoardModerator from "./app/components/BoardModerator";
+import BoardAdmin from "./app/components/BoardAdmin";
 
-import { logout } from "./slices/auth";
+import { logout } from "./app/slices/auth";
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
