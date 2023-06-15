@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setMessage } from "./message";
 
 import AuthService from "../services/auth.service";
+import UserService from "../services/user.service";
 
 const user = JSON.parse(localStorage.getItem("user"));
 
@@ -27,9 +28,9 @@ export const register = createAsyncThunk(
 
 export const login = createAsyncThunk(
   "auth/login",
-  async ({ username, password }, thunkAPI) => {
+  async ({ email, password }, thunkAPI) => {
     try {
-      const data = await AuthService.login(username, password);
+      const data = await AuthService.login(email, password);
       return { user: data };
     } catch (error) {
       const message =
@@ -44,9 +45,66 @@ export const login = createAsyncThunk(
   }
 );
 
-export const logout = createAsyncThunk("auth/logout", async () => {
-  await AuthService.logout();
-});
+export const editProfile = createAsyncThunk(
+  "auth/edit",
+  async ({ username, password, accessToken }, thunkAPI) => {
+    try {
+      const data = await UserService.editProfile(
+        username,
+        password,
+        accessToken
+      );
+      return { data };
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
+export const logout = createAsyncThunk(
+  "auth/logout",
+  async ({ refreshToken, accessToken }, thunkAPI) => {
+    try {
+      const data = await AuthService.logout(refreshToken, accessToken);
+      return { data };
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
+export const reissuanceToken = createAsyncThunk(
+  "auth/reissuance",
+  async ({ refreshToken }, thunkAPI) => {
+    try {
+      const data = await AuthService.reissuanceToken(refreshToken);
+      return { data };
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
 
 const initialState = user
   ? { isLoggedIn: true, user }

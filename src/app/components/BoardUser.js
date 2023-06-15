@@ -4,11 +4,13 @@ import UserService from "../services/user.service";
 
 const BoardUser = () => {
   const [content, setContent] = useState("");
+  const accessToken = localStorage.getItem("accessToken");
+  console.log(accessToken);
 
   useEffect(() => {
-    UserService.getUserBoard().then(
-      (response) => {
-        setContent(response.data);
+    UserService.getTest(accessToken).then(
+      () => {
+        setContent("test");
       },
       (error) => {
         const _content =
