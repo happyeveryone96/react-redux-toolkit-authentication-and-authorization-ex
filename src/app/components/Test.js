@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 
 import UserService from "../services/user.service";
 
-const BoardUser = () => {
+const Test = () => {
   const [content, setContent] = useState("");
   const accessToken = localStorage.getItem("accessToken");
-  console.log(accessToken);
 
   useEffect(() => {
     UserService.getTest(accessToken).then(
@@ -34,4 +33,4 @@ const BoardUser = () => {
   );
 };
 
-export default BoardUser;
+export default Test;

@@ -9,21 +9,18 @@ import Login from "./app/components/Login";
 import Register from "./app/components/Register";
 import Home from "./app/components/Home";
 import Profile from "./app/components/Profile";
-import BoardUser from "./app/components/BoardUser";
-import BoardModerator from "./app/components/BoardModerator";
-import BoardAdmin from "./app/components/BoardAdmin";
+import Test from "./app/components/Test";
 
 import { logout, reissuanceToken } from "./app/slices/auth";
 
 const App = () => {
-  const [showModeratorBoard, setShowModeratorBoard] = useState(false);
-  const [showAdminBoard, setShowAdminBoard] = useState(false);
   const username = localStorage.getItem("username");
 
   const refreshToken = localStorage.getItem("refreshToken");
   const accessToken = localStorage.getItem("accessToken");
 
   const isLogin = username && username.length > 0;
+  const [_, setIsLoggedIn] = useState(isLogin);
 
   const { user: currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -38,11 +35,7 @@ const App = () => {
 
   useEffect(() => {
     if (currentUser) {
-      setShowModeratorBoard(currentUser.roles?.includes("ROLE_MODERATOR"));
-      setShowAdminBoard(currentUser.roles?.includes("ROLE_ADMIN"));
-    } else {
-      setShowModeratorBoard(false);
-      setShowAdminBoard(false);
+      setIsLoggedIn(true);
     }
   }, [currentUser]);
 
@@ -59,22 +52,6 @@ const App = () => {
                 Home
               </Link>
             </li>
-
-            {showModeratorBoard && (
-              <li className="nav-item">
-                <Link to={"/mod"} className="nav-link">
-                  Moderator Board
-                </Link>
-              </li>
-            )}
-
-            {showAdminBoard && (
-              <li className="nav-item">
-                <Link to={"/admin"} className="nav-link">
-                  Admin Board
-                </Link>
-              </li>
-            )}
 
             {
               <li className="nav-item">
@@ -127,9 +104,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/test" element={<BoardUser />} />
-            <Route path="/mod" element={<BoardModerator />} />
-            <Route path="/admin" element={<BoardAdmin />} />
+            <Route path="/test" element={<Test />} />
           </Routes>
         </div>
       </div>
