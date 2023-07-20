@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -11,6 +12,7 @@ const Register = () => {
 
   const { message } = useSelector((state) => state.message);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(clearMessage());
@@ -53,6 +55,7 @@ const Register = () => {
       .unwrap()
       .then(() => {
         setSuccessful(true);
+        navigate("/login");
       })
       .catch(() => {
         setSuccessful(false);

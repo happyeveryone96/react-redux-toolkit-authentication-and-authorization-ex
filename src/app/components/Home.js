@@ -1,30 +1,23 @@
 import React, { useState, useEffect } from "react";
-
-import UserService from "../services/user.service";
+import { Navigate } from "react-router-dom";
 
 const Home = () => {
   const [content, setContent] = useState("");
+  const username = localStorage.getItem("username");
+  const isLogin = username && username.length > 0;
 
   useEffect(() => {
-    UserService.getPublicContent().then(
-      (response) => {
-        setContent(response.data);
-      },
-      (error) => {
-        const _content =
-          (error.response && error.response.data) ||
-          error.message ||
-          error.toString();
-
-        setContent(_content);
-      }
-    );
+    setContent(username);
   }, []);
+
+  if (!isLogin) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <div className="container">
       <header className="jumbotron">
-        <h3>{content}</h3>
+        <h3>name: {content}</h3>
       </header>
     </div>
   );

@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 
 import UserService from "../services/user.service";
 
-const BoardModerator = () => {
+const Test = () => {
   const [content, setContent] = useState("");
+  const accessToken = localStorage.getItem("accessToken");
 
   useEffect(() => {
-    UserService.getModeratorBoard().then(
-      (response) => {
-        setContent(response.data);
+    UserService.getTest(accessToken).then(
+      () => {
+        setContent("test");
       },
       (error) => {
         const _content =
@@ -32,4 +33,4 @@ const BoardModerator = () => {
   );
 };
 
-export default BoardModerator;
+export default Test;
